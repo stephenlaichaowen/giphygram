@@ -25,14 +25,13 @@
 
 <body>
   <div id="app">
-    <div class="container px-0">
-      <header class="navbar sticky-top navbar-expand bg-primary navbar-dark">    
-        <img src="images/logo.png" alt="Giphygram" width="60" class="img-fluid navbar-brand">
-        <div class="input-group">
-          <input id="search-box" style="padding: 3px 5px" type="text" class="float-right form-control" v-model="search" @keyup.enter="update">
-        </div>        
-      </header>
-    </div>
+    <header class="navbar sticky-top navbar-expand bg-primary navbar-dark">    
+      <img src="images/logo.png" alt="Giphygram" width="60" class="img-fluid navbar-brand">
+      <div class="input-group">
+        <input id="search-box" style="padding: 3px 5px" type="text" class="float-right form-control" v-model="search" @keyup.enter="update">
+      </div>        
+    </header>
+   
     <main class="container p-1">
       <div class="alert alert-danger text-center m-1" style="display:none;">
         Could not update Giphy's
