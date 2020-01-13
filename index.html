@@ -7,8 +7,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="manifest" href="manifest.json">
+
+  <!-- Style -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  
+  <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
     crossorigin="anonymous"></script>
@@ -22,6 +27,39 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.1/axios.min.js"
     integrity="sha256-Hhwv1ElzvrH6ZuiIDWEO6xBYW3lmFYrapwcjgXhpL6g=" crossorigin="anonymous"></script>
 </head>
+
+<style>
+.spinner {
+  width: 80px;
+  height: 80px;
+  border: 2px solid #f3f3f3;
+  border-top: 3px solid #f25a41;
+  border-radius: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  animation: spin 1s infinite linear;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.overlay {
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+</style>
 
 <body>
   <div id="app">
@@ -37,7 +75,10 @@
         Could not update Giphy's
       </div>
       <div id="giphys" class="row no-gutters">
-        <div class="col-sm-6 col-md-4 col-lg-3 p-1" v-for="gif in album">
+        <div class="overlay" v-if="show">
+          <div class="spinner"></div>
+        </div>
+        <div v-else class="col-sm-6 col-md-4 col-lg-3 p-1" v-for="gif in album">          
           <img class="w-100 img-fluid" :src="gif.images.downsized_large.url">
         </div>
       </div>
@@ -58,13 +99,13 @@
   const app = new Vue({
     el: '#app',
     data: {
-      show: true,
+      show: false,
       album: [],
       search: null
     },
     methods: {
       update() {
-        this.show = false
+        this.show = true
         axios
           .get(url, {
             params: {
@@ -75,7 +116,7 @@
           })
           .then(res => {
             this.search = null
-            this.show = true
+            this.show = false
             this.album = res.data.data
             localStorage.setItem('album', JSON.stringify(this.album))
 
